@@ -1,4 +1,5 @@
 import allure
+import time
 from allure_commons.types import AttachmentType
 
 
@@ -13,8 +14,12 @@ def add_logs(browser):
 
 
 def add_html(browser):
+    time.sleep(1)
     html = browser.driver.page_source
-    allure.attach(html, 'page_source', AttachmentType.HTML, '.html')
+    if html and len(html) > 100:
+        allure.attach(html, 'page_source', AttachmentType.HTML, '.html')
+    else:
+        allure.attach("Страница не загрузилась или HTML пуст", 'page_source_empty', AttachmentType.TEXT, '.txt')
 
 
 def add_video(browser):
